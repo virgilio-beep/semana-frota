@@ -129,6 +129,11 @@ h1{font-size:clamp(28px,4vw,42px);line-height:1.03}
 .tag.se{background:color-mix(in srgb,var(--ink-3) 20%,transparent);color:var(--ink-2)}
 .tag.mnt{background:color-mix(in srgb,var(--warn) 24%,transparent);color:var(--warn)}
 .tag.nota{background:color-mix(in srgb,var(--viagem) 16%,transparent);color:var(--viagem)}
+.tarja{position:absolute;inset:3px 1px;background:#0d0d0d;border-radius:2px;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.22)}
+.rc .parado{align-self:flex-start;margin-top:2px;font-size:9.5px;font-weight:700;letter-spacing:.08em;
+  background:#0d0d0d;color:#fff;padding:1px 6px;border-radius:3px;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.22)}
 .wk{padding:4px 8px;display:flex;flex-direction:column;justify-content:center;gap:2px;border-left:2px solid var(--coldiv)}
 .wk .n{font-family:"IBM Plex Mono",monospace;font-size:11px;font-variant-numeric:tabular-nums;color:var(--ink-2)}
 .wk .track{height:5px;background:var(--track);border-radius:3px;overflow:hidden}
@@ -175,7 +180,7 @@ footer code{font-family:"IBM Plex Mono",monospace;font-size:11.5px}
 
 <div class="panel">
   <div class="controls">
-    <label><input type="checkbox" id="hideIdle" checked> ocultar carros parados a semana toda</label>
+    <label><input type="checkbox" id="hideIdle" checked> ocultar carros sem movimento (mantém os PARADO)</label>
     <input type="search" id="q" placeholder="nº do carro" aria-label="filtrar por número do carro">
     <div class="legend">
       <span><i class="sw ida"></i>ida</span>
@@ -183,6 +188,7 @@ footer code{font-family:"IBM Plex Mono",monospace;font-size:11.5px}
       <span><i class="sw viagem"></i>em viagem</span>
       <span><i class="sw cheg"></i>chegando</span>
       <span><i class="sw ida" style="opacity:.55;border-left:2px solid var(--brand)"></i>vem da véspera</span>
+      <span><i class="sw" style="background:#0d0d0d"></i>indisponível (PARADO)</span>
     </div>
   </div>
   <div class="grid-scroll"><div class="wgrid" id="wg"></div></div>
@@ -190,7 +196,8 @@ footer code{font-family:"IBM Plex Mono",monospace;font-size:11.5px}
 
 <footer>
   <h2>Notas de leitura</h2>
-  <p>• <b>Domingo 06/09</b> estava quase todo em branco na planilha — os carros que aparecem no domingo são, na maior parte, viagens de sábado à noite que só terminam na madrugada de domingo.<br>
+  <p>• <b>Tarja preta</b> = carro com status <b>PARADO</b> na planilha (coluna F): indisponível em toda a semana. <span id="paradosTxt"></span><br>
+     • <b>Domingo 06/09</b> estava quase todo em branco na planilha — os carros que aparecem no domingo são, na maior parte, viagens de sábado à noite que só terminam na madrugada de domingo.<br>
      • Faixa com borda vermelha à direita passa da meia-noite; ela reaparece <b>no início do dia seguinte</b> como faixa mais clara (“vem da véspera”) até a hora estimada de chegada.<br>
      • Célula só com número de linha e sem horário (ex.: <code>3965</code>) vira etiqueta, sem faixa.<br>
      • “Chegando” é a viagem noturna que entra em BH de madrugada; a hora de chegada é aproximada.<br>
@@ -205,6 +212,8 @@ const D=JSON.parse(document.getElementById('data').textContent);
 const F=D.frota_total, pad=n=>String(n).padStart(2,'0');
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
+{const pt=document.getElementById('paradosTxt');
+ if(pt) pt.textContent = D.parados_n ? `São ${D.parados_n} de ${F} carros nessa situação.` : '';}
 document.getElementById('fonteResumo').textContent = D.est_cidades.length
   ? `${D.reais_cidades.length} destinos com horário real; ainda estimados: ${D.est_cidades.join(', ')}`
   : `todos os ${D.reais_cidades.length} destinos da semana com horário real`;
@@ -252,7 +261,7 @@ function render(){
   const hi=document.getElementById('hideIdle').checked;
   const q=document.getElementById('q').value.trim();
   let idx=D.dias[0].linhas.map((_,i)=>i);
-  if(hi) idx=idx.filter(i=>D.dias.some(dd=>dd.linhas[i].intervals.length));
+  if(hi) idx=idx.filter(i=>D.dias.some(dd=>dd.linhas[i].intervals.length || dd.linhas[i].estado==='indisponivel'));
   if(q) idx=idx.filter(i=>D.dias[0].linhas[i].carro.includes(q));
 
   let head=`<div class="wrow whead"><div class="wl">carro</div>`;
@@ -273,7 +282,8 @@ function render(){
     let cells='';
     D.dias.forEach((dd,di)=>{
       const l=dd.linhas[i]; let inner='<div class="g"></div>';
-      if(l.estado==='sem_escala') inner+='<span class="tag se">S/E</span>';
+      if(l.estado==='indisponivel') inner+='<div class="tarja"></div>';
+      else if(l.estado==='sem_escala') inner+='<span class="tag se">S/E</span>';
       else if(l.estado==='manutencao') inner+='<span class="tag mnt">manut.</span>';
       else if(l.estado==='nota'&&l.nota) inner+=`<span class="tag nota">${esc(l.nota.length>16?l.nota.slice(0,15)+'…':l.nota)}</span>`;
       l.intervals.forEach(it=>{
@@ -282,17 +292,20 @@ function render(){
         inner+=`<div class="bar ${cls}" style="left:${L}%;width:${W}%"></div>`;
       });
       cells+=`<div class="day" data-k="${i}_${di}">${inner}</div>`;
-      const legs=l.intervals.length
+      const legs=l.estado==='indisponivel'
+        ? '<u>carro PARADO no status da planilha — indisponível em toda a semana</u>'
+        : l.intervals.length
         ? l.intervals.map(it=>`<u>${esc(it.rot)}${it.fonte==='estimado'?' · tempo estimado':it.fonte==='saritur'?' · tempo real':''}${it.overflow?' — segue na madrugada':''}</u>`).join('')
         : `<u>${esc(l.nota||(l.estado==='sem_escala'?'sem escala':'sem viagem'))}</u>`;
       tips[`${i}_${di}`]=`<div class="h">${esc(l.carro)} · ${dd.nome}</div>`+
         (l.raw?`<div class="raw">planilha: “${esc(l.raw)}”</div>`:'')+legs;
     });
+    const parado=D.dias.every(dd=>dd.linhas[i].estado==='indisponivel');
     const wkH=D.sem_semana[i], wp=Math.min(100,wkH/40*100);
-    return `<div class="wrow body${anyTrip?'':' idle'}">
-      <div class="rc"><span class="car">${esc(base.carro)}</span><span class="pre">${esc(base.prefixo)} · ${esc(base.modelo)}</span></div>
+    return `<div class="wrow body${(anyTrip||parado)?'':' idle'}">
+      <div class="rc"><span class="car">${esc(base.carro)}</span><span class="pre">${esc(base.prefixo)} · ${esc(base.modelo)}</span>${parado?'<span class="parado">PARADO</span>':''}</div>
       ${cells}
-      <div class="wk"><span class="n">${wkH.toFixed(1)}h</span><span class="track"><span class="fill" style="width:${wp}%"></span></span></div>
+      <div class="wk">${parado?'<span class="n">—</span>':`<span class="n">${wkH.toFixed(1)}h</span><span class="track"><span class="fill" style="width:${wp}%"></span></span>`}</div>
     </div>`;
   }).join('');
   wg.innerHTML=head+body;

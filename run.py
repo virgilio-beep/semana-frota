@@ -173,6 +173,11 @@ def build(veic, regs, linha_dest):
         for v in veic:
             r = regs.get((v["carro"], d))
             intervals, estado, nota, chegando = [], "parado", None, False
+            if norm_linha(v.get("status")) == "PARADO":
+                linhas.append(dict(carro=v["carro"], modelo=v["modelo"], prefixo=v["prefixo"],
+                                   rota=v["rota"], estado="indisponivel", nota="PARADO",
+                                   chegando=False, raw=(r["raw"] if r else ""), intervals=[]))
+                continue
             if r:
                 if r["nota"] and not r["legs"]:
                     t = r["nota"].lower()
@@ -268,8 +273,10 @@ def build(veic, regs, linha_dest):
                     if linha_dest.get(ln) and any(na(c) == na(linha_dest[ln]) for c in TT)})
     est = sorted({linha_dest[ln] for ln in usadas
                   if linha_dest.get(ln) and not any(na(c) == na(linha_dest[ln]) for c in TT)})
+    parados_n = sum(1 for v in veic if norm_linha(v.get("status")) == "PARADO")
     return dict(frota_total=N, dias=dias_out, resumo=resumo, sem_semana=sem,
-                reais_cidades=reais, est_cidades=est, linha_dest=linha_dest)
+                parados_n=parados_n, reais_cidades=reais, est_cidades=est,
+                linha_dest=linha_dest)
 
 # ------------------------------------------------------------------ html
 def gerar_html(data):
