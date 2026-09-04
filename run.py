@@ -67,18 +67,47 @@ def norm_linha(s):
 def hhm(m):
     return f"{m // 60}h{m % 60:02d}"
 
-def baixar_csv():
-    try:
-        import urllib.request
-        req = urllib.request.Request(SHEET_CSV, headers={"User-Agent": "Mozilla/5.0"})
-        raw = urllib.request.urlopen(req, timeout=45).read()
-    except Exception as e:
-        sys.exit(f"ERRO baixando a planilha: {e}")
+CACHE_CSV = os.path.join(HERE, "frota_movimento.csv")
+
+def _fetch_live():
+    """Tenta baixar a planilha ao vivo. Levanta exceção se a rede estiver
+    bloqueada (comum em sandboxes de agente na nuvem com egress restrito) ou
+    se a planilha não estiver pública."""
+    import urllib.request
+    req = urllib.request.Request(SHEET_CSV, headers={"User-Agent": "Mozilla/5.0"})
+    raw = urllib.request.urlopen(req, timeout=45).read()
     txt = raw.decode("utf-8", "replace")
     if "<html" in txt[:200].lower():
-        sys.exit("ERRO: a planilha não está pública (retornou HTML de login). "
-                 "Ajuste o compartilhamento para 'qualquer pessoa com o link'.")
-    return list(csv.reader(io.StringIO(txt)))
+        raise RuntimeError("a planilha não está pública (retornou HTML de login) — "
+                           "ajuste o compartilhamento para 'qualquer pessoa com o link'")
+    return txt
+
+def baixar_csv():
+    """Preferência: dado ao vivo do Google Sheets. Se a rede estiver
+    bloqueada (ex.: sandbox de rotina agendada sem egress p/ docs.google.com),
+    cai pro `frota_movimento.csv` versionado no repo -- mantido fresco por um
+    GitHub Action (.github/workflows/refresh-planilha.yml) que roda a cada
+    30 min a partir de uma runner com internet livre."""
+    erro_rede = None
+    try:
+        txt = _fetch_live()
+        try:
+            with open(CACHE_CSV, "w", encoding="utf-8", newline="") as f:
+                f.write(txt)
+        except OSError:
+            pass  # cache é um bônus; sem permissão de escrita não é fatal
+        return list(csv.reader(io.StringIO(txt)))
+    except Exception as e:
+        erro_rede = e
+
+    if os.path.exists(CACHE_CSV):
+        idade_min = (__import__("time").time() - os.path.getmtime(CACHE_CSV)) / 60
+        print(f"AVISO: rede bloqueada ({erro_rede}); usando frota_movimento.csv em cache "
+              f"(~{idade_min:.0f} min desatualizado).")
+        with open(CACHE_CSV, encoding="utf-8") as f:
+            return list(csv.reader(f))
+
+    sys.exit(f"ERRO baixando a planilha (sem rede e sem cache local): {erro_rede}")
 
 # ------------------------------------------------------------------ parse
 def rota_para_destino(rota):

@@ -1,0 +1,46 @@
+name: Atualiza planilha FROTA MOVIMENTO
+
+# Mantém frota_movimento.csv fresco: os runners do GitHub Actions têm
+# internet livre (diferente do sandbox das rotinas na nuvem do Claude, que
+# bloqueia egress para docs.google.com por política da organização) --
+# então é este workflow que baixa a planilha, e o run.py das rotinas lê o
+# arquivo já commitado no repositório em vez de tentar buscar ao vivo.
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-planilha
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Baixa a planilha (export CSV público)
+        run: |
+          curl -sL --fail \
+            -A "Mozilla/5.0" \
+            "https://docs.google.com/spreadsheets/d/19t_XZetIEYahWVyizp8w1Y371FDtnPBNXheTIkW9oSU/export?format=csv&gid=0" \
+            -o frota_movimento.new.csv
+          if head -c 200 frota_movimento.new.csv | grep -qi "<html"; then
+            echo "::error::planilha retornou HTML (não está mais pública?) -- mantendo o cache anterior"
+            exit 1
+          fi
+          mv frota_movimento.new.csv frota_movimento.csv
+
+      - name: Commita se mudou
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add frota_movimento.csv
+          git diff --cached --quiet && echo "sem mudanças" && exit 0
+          git commit -m "Atualiza frota_movimento.csv ($(date -u +%Y-%m-%dT%H:%MZ))"
+          git push
