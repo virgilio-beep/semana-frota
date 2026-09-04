@@ -3,55 +3,59 @@
 <meta name="description" content="Atividade dos 95 carros da frota Saritur (Matriz-BH), 3 a 6 de setembro de 2026, com os quatro dias lado a lado.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap">
 <style>
+/* Paleta e tipografia do Design System Saritur (apps/web globals.css) */
 :root{
-  --bg:#f6f5f2; --surface:#fff; --surface-2:#efece6; --track:#e7e3db;
-  --border:#e0ddd5; --coldiv:#cdc8bd; --ink:#201d1b; --ink-2:#6c665e; --ink-3:#938c82;
-  --brand:#c30f2c;
-  --ida:#1f5f8b; --volta:#bf7a24; --viagem:#3f7d70; --chegando:#6f5fd0;
-  --warn:#c98a1e;
-  --shadow:0 1px 2px rgba(30,25,20,.06),0 10px 26px -14px rgba(30,25,20,.16);
-  --r:10px; --lw:150px; --wk:58px;
+  --bg:#fafafa; --surface:#ffffff; --surface-2:#fff4ef; --track:#efe9e3;
+  --border:#e7e2dc; --coldiv:#cbc0b3;
+  --ink:#4e3205; --body:#292524; --ink-2:#7d6a52; --ink-3:#a89985;
+  --brand:#f37137;
+  --ida:#2563eb; --volta:#f37137; --viagem:#0891b2; --chegando:#7c3aed;
+  --warn:#b7791f; --danger:#ef4444; --parado:#1c1917;
+  --shadow:0 2px 8px 0 rgba(78,50,5,.06),0 1px 2px 0 rgba(78,50,5,.04);
+  --r:12px; --lw:150px; --wk:58px;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#191817; --surface:#232120; --surface-2:#2b2927; --track:#332f2b;
-  --border:#38352f; --ink:#ece8e2; --ink-2:#a79f94; --ink-3:#7c7469;
-  --brand:#f0576b; --coldiv:#48443d;
-  --ida:#59a6d4; --volta:#e0a559; --viagem:#67b0a1; --chegando:#a99cf0;
-  --warn:#e0a559;
-  --shadow:0 1px 2px rgba(0,0,0,.3),0 12px 30px -16px rgba(0,0,0,.55);
+  --bg:#1c1917; --surface:#292524; --surface-2:#332b26; --track:#3a332c;
+  --border:#3a332c; --coldiv:#574d43;
+  --ink:#f4ede4; --body:#e7ddd0; --ink-2:#c8b7a3; --ink-3:#98876f;
+  --brand:#ff7a44;
+  --ida:#6493f4; --volta:#ff7a44; --viagem:#33b6cf; --chegando:#a888f2;
+  --warn:#e0a559; --danger:#f87171; --parado:#0a0a0a;
+  --shadow:0 2px 10px 0 rgba(0,0,0,.4),0 1px 2px 0 rgba(0,0,0,.3);
 }}
 :root[data-theme="dark"]{
-  --bg:#191817; --surface:#232120; --surface-2:#2b2927; --track:#332f2b;
-  --border:#38352f; --ink:#ece8e2; --ink-2:#a79f94; --ink-3:#7c7469;
-  --brand:#f0576b; --coldiv:#48443d;
-  --ida:#59a6d4; --volta:#e0a559; --viagem:#67b0a1; --chegando:#a99cf0;
-  --warn:#e0a559;
-  --shadow:0 1px 2px rgba(0,0,0,.3),0 12px 30px -16px rgba(0,0,0,.55);
+  --bg:#1c1917; --surface:#292524; --surface-2:#332b26; --track:#3a332c;
+  --border:#3a332c; --coldiv:#574d43;
+  --ink:#f4ede4; --body:#e7ddd0; --ink-2:#c8b7a3; --ink-3:#98876f;
+  --brand:#ff7a44;
+  --ida:#6493f4; --volta:#ff7a44; --viagem:#33b6cf; --chegando:#a888f2;
+  --warn:#e0a559; --danger:#f87171; --parado:#0a0a0a;
+  --shadow:0 2px 10px 0 rgba(0,0,0,.4),0 1px 2px 0 rgba(0,0,0,.3);
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);
-  font-family:"IBM Plex Sans",system-ui,-apple-system,sans-serif;font-size:14px;line-height:1.5;
+body{margin:0;background:var(--bg);color:var(--body);
+  font-family:"Sora",system-ui,-apple-system,sans-serif;font-size:14px;line-height:1.5;
   -webkit-font-smoothing:antialiased}
 .wrap{max-width:1320px;margin:0 auto;padding:30px 20px 60px}
-h1,h2{font-family:"Barlow Semi Condensed",system-ui,sans-serif;font-weight:700;
+h1,h2{font-family:"Sora",system-ui,sans-serif;font-weight:700;color:var(--ink);
   letter-spacing:.01em;margin:0;text-wrap:balance}
-.eyebrow{font-family:"Barlow Semi Condensed",sans-serif;font-weight:600;text-transform:uppercase;
+.eyebrow{font-family:"Sora",system-ui,sans-serif;font-weight:600;text-transform:uppercase;
   letter-spacing:.13em;font-size:12px;color:var(--brand);margin-bottom:6px}
 h1{font-size:clamp(28px,4vw,42px);line-height:1.03}
 .lede{color:var(--ink-2);margin:10px 0 0;max-width:62ch;font-size:15px}
 .rule{height:3px;width:52px;background:var(--brand);border-radius:2px;margin:15px 0 22px}
 .premissas{font-size:12.5px;color:var(--ink-3);max-width:70ch;margin-top:12px;line-height:1.6}
 .premissas b{color:var(--ink-2);font-weight:600}
-.chip{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:11px;padding:1px 6px;
+.chip{display:inline-block;font-family:"Sora",system-ui,sans-serif;font-variant-numeric:tabular-nums;font-size:11px;padding:1px 6px;
   border-radius:5px;background:var(--surface-2);color:var(--ink-2);border:1px solid var(--border)}
 
 .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:24px 0 6px}
 .kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:13px 14px 15px;
   box-shadow:var(--shadow)}
 .kpi h2{font-size:16px;text-transform:uppercase;letter-spacing:.05em}
-.kpi .big{font-family:"Barlow Semi Condensed",sans-serif;font-weight:700;font-size:27px;
+.kpi .big{font-family:"Sora",system-ui,sans-serif;font-weight:700;font-size:27px;
   font-variant-numeric:tabular-nums;line-height:1.15;margin-top:3px}
 .kpi .big small{font-size:12px;color:var(--ink-3);font-weight:600}
 .kpi .sub{font-size:11.5px;color:var(--ink-2);font-variant-numeric:tabular-nums;margin-top:1px}
@@ -66,11 +70,11 @@ h1{font-size:clamp(28px,4vw,42px);line-height:1.03}
 .spark{display:grid;grid-template-columns:repeat(4,1fr);gap:0;padding:8px 12px 14px}
 .spark figure{margin:0;padding:0 8px;border-left:1px solid var(--border)}
 .spark figure:first-child{border-left:0}
-.spark figcaption{font-family:"Barlow Semi Condensed",sans-serif;font-weight:600;font-size:12.5px;
+.spark figcaption{font-family:"Sora",system-ui,sans-serif;font-weight:600;font-size:12.5px;
   text-transform:uppercase;letter-spacing:.05em;color:var(--ink-2);display:flex;justify-content:space-between}
 .spark figcaption b{color:var(--brand);font-variant-numeric:tabular-nums}
 .spark svg{display:block;width:100%;height:96px;overflow:visible;margin-top:3px}
-.spark text{font-family:"IBM Plex Mono",monospace;font-size:9px;fill:var(--ink-3)}
+.spark text{font-family:"Sora",system-ui,sans-serif;font-variant-numeric:tabular-nums;font-size:9px;fill:var(--ink-3)}
 
 .controls{display:flex;gap:15px;align-items:center;flex-wrap:wrap;padding:11px 18px;
   border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface-2)}
@@ -99,11 +103,11 @@ h1{font-size:clamp(28px,4vw,42px);line-height:1.03}
 }
 .whead .wl{padding:7px 12px 5px;font-size:11px;font-weight:600;text-transform:uppercase;
   letter-spacing:.07em;color:var(--ink-3);align-self:end}
-.wc .dname{font-family:"Barlow Semi Condensed",sans-serif;font-weight:700;font-size:14px;
+.wc .dname{font-family:"Sora",system-ui,sans-serif;font-weight:700;font-size:14px;color:var(--ink);
   text-transform:uppercase;letter-spacing:.03em}
 .wc .dstat{font-size:10.5px;color:var(--ink-2);font-variant-numeric:tabular-nums}
 .wc .ax{position:relative;height:9px;margin-top:3px}
-.wc .ax i{position:absolute;font-style:normal;font-family:"IBM Plex Mono",monospace;font-size:8px;
+.wc .ax i{position:absolute;font-style:normal;font-family:"Sora",system-ui,sans-serif;font-variant-numeric:tabular-nums;font-size:8px;
   color:var(--ink-3);transform:translateX(-50%)}
 .wc .ax i:first-child{transform:none}.wc .ax i:last-child{transform:translateX(-100%)}
 
@@ -112,7 +116,7 @@ h1{font-size:clamp(28px,4vw,42px);line-height:1.03}
 .rc{padding:5px 10px;display:flex;flex-direction:column;justify-content:center;gap:1px;
   position:sticky;left:0;z-index:2;background:var(--surface);border-right:2px solid var(--coldiv)}
 .wrow.body:nth-of-type(even) .rc{background:var(--surface-2)}
-.rc .car{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:12.5px;font-variant-numeric:tabular-nums}
+.rc .car{font-family:"Sora",system-ui,sans-serif;font-variant-numeric:tabular-nums;font-weight:600;font-size:12.5px;font-variant-numeric:tabular-nums}
 .rc .pre{font-size:10px;color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .day{position:relative;border-left:1px solid var(--coldiv);min-height:26px}
 .day .g{position:absolute;inset:3px 0;pointer-events:none;
@@ -120,36 +124,36 @@ h1{font-size:clamp(28px,4vw,42px);line-height:1.03}
 .bar{position:absolute;top:4px;bottom:4px;border-radius:3px;min-width:2px}
 .bar.ida{background:var(--ida)}.bar.volta{background:var(--volta)}.bar.viagem{background:var(--viagem)}
 .bar.chegando{background:repeating-linear-gradient(45deg,var(--chegando),var(--chegando) 3px,color-mix(in srgb,var(--chegando) 55%,#000) 3px,color-mix(in srgb,var(--chegando) 55%,#000) 6px)}
-.bar.of{border-right:2px solid var(--brand)}
-.bar.continuacao{border-radius:0 3px 3px 0;opacity:.78;border-left:2px solid var(--brand);
+.bar.of{border-right:2px solid var(--danger)}
+.bar.continuacao{border-radius:0 3px 3px 0;opacity:.8;border-left:2px solid var(--danger);
   background-image:linear-gradient(90deg,rgba(255,255,255,.5),rgba(255,255,255,0) 45%)}
 .bar.chegando.continuacao{opacity:1}
+.bar.parado{left:1px;right:1px;background:var(--parado);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
 .tag{position:absolute;left:4px;top:50%;transform:translateY(-50%);font-size:9.5px;font-weight:600;
   padding:1px 5px;border-radius:10px;white-space:nowrap;max-width:calc(100% - 8px);overflow:hidden;text-overflow:ellipsis}
 .tag.se{background:color-mix(in srgb,var(--ink-3) 20%,transparent);color:var(--ink-2)}
 .tag.mnt{background:color-mix(in srgb,var(--warn) 24%,transparent);color:var(--warn)}
 .tag.nota{background:color-mix(in srgb,var(--viagem) 16%,transparent);color:var(--viagem)}
-.tarja{position:absolute;inset:3px 1px;background:#0d0d0d;border-radius:2px;
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.22)}
-.rc .parado{align-self:flex-start;margin-top:2px;font-size:9.5px;font-weight:700;letter-spacing:.08em;
-  background:#0d0d0d;color:#fff;padding:1px 6px;border-radius:3px;
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.22)}
+.rc .parado{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.09em;
+  background:var(--parado);color:#fff;padding:0 5px;border-radius:3px;margin-right:4px;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.16)}
+.rc .pre.dim{color:var(--ink-3)}
 .wk{padding:4px 8px;display:flex;flex-direction:column;justify-content:center;gap:2px;border-left:2px solid var(--coldiv)}
-.wk .n{font-family:"IBM Plex Mono",monospace;font-size:11px;font-variant-numeric:tabular-nums;color:var(--ink-2)}
+.wk .n{font-family:"Sora",system-ui,sans-serif;font-variant-numeric:tabular-nums;font-size:11px;font-variant-numeric:tabular-nums;color:var(--ink-2)}
 .wk .track{height:5px;background:var(--track);border-radius:3px;overflow:hidden}
-.wk .fill{height:100%;background:var(--ida);border-radius:3px}
+.wk .fill{height:100%;background:var(--brand);border-radius:3px}
 
 #tip{position:fixed;z-index:30;pointer-events:none;opacity:0;transition:opacity .1s;
   background:var(--ink);color:var(--bg);border-radius:8px;padding:9px 11px;max-width:290px;
   font-size:12px;line-height:1.45;box-shadow:0 12px 32px -8px rgba(0,0,0,.45)}
-#tip .h{font-family:"IBM Plex Mono",monospace;font-weight:600;margin-bottom:2px}
+#tip .h{font-family:"Sora",system-ui,sans-serif;font-variant-numeric:tabular-nums;font-weight:600;margin-bottom:2px}
 #tip .raw{color:var(--ink-3);font-size:11px;margin:3px 0 4px;white-space:pre-wrap}
 #tip u{text-decoration:none;display:block}
 .empty{padding:20px 18px;color:var(--ink-2)}
 
 footer{margin-top:28px;font-size:12px;color:var(--ink-3);max-width:76ch;line-height:1.65}
 footer h2{font-size:13px;color:var(--ink-2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
-footer code{font-family:"IBM Plex Mono",monospace;font-size:11.5px}
+footer code{font-family:"Sora",system-ui,sans-serif;font-variant-numeric:tabular-nums;font-size:11.5px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 @media (max-width:560px){:root{--lw:96px;--wk:44px}}
 </style>
@@ -173,7 +177,7 @@ footer code{font-family:"IBM Plex Mono",monospace;font-size:11.5px}
 <div class="panel">
   <div class="panel-h">
     <h2>Carros em viagem, hora a hora</h2>
-    <p>Mesma escala nos quatro dias. O ponto vermelho marca o pico do dia.</p>
+    <p>Mesma escala nos quatro dias. O ponto marca o pico de carros simultâneos.</p>
   </div>
   <div class="spark" id="spark"></div>
 </div>
@@ -187,8 +191,8 @@ footer code{font-family:"IBM Plex Mono",monospace;font-size:11.5px}
       <span><i class="sw volta"></i>volta</span>
       <span><i class="sw viagem"></i>em viagem</span>
       <span><i class="sw cheg"></i>chegando</span>
-      <span><i class="sw ida" style="opacity:.55;border-left:2px solid var(--brand)"></i>vem da véspera</span>
-      <span><i class="sw" style="background:#0d0d0d"></i>indisponível (PARADO)</span>
+      <span><i class="sw ida" style="opacity:.55;border-left:2px solid var(--danger)"></i>vem da véspera</span>
+      <span><i class="sw" style="background:var(--parado)"></i>indisponível (PARADO)</span>
     </div>
   </div>
   <div class="grid-scroll"><div class="wgrid" id="wg"></div></div>
@@ -241,9 +245,9 @@ document.getElementById('spark').innerHTML = D.dias.map(dd=>{
   return `<figure><figcaption><span>${dd.nome}</span><b>${pkv}</b></figcaption>
     <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="${dd.nome}: pico ${pkv} carros">
       ${ticks}
-      <path d="${area}" fill="var(--ida)" fill-opacity=".15"/>
-      <path d="${line}" fill="none" stroke="var(--ida)" stroke-width="1.6" stroke-linejoin="round"/>
-      ${pkv?`<circle cx="${x(pk+.5).toFixed(1)}" cy="${y(pkv).toFixed(1)}" r="2.6" fill="var(--brand)"/>`:''}
+      <path d="${area}" fill="var(--brand)" fill-opacity=".14"/>
+      <path d="${line}" fill="none" stroke="var(--brand)" stroke-width="1.8" stroke-linejoin="round"/>
+      ${pkv?`<circle cx="${x(pk+.5).toFixed(1)}" cy="${y(pkv).toFixed(1)}" r="2.8" fill="var(--ink)"/>`:''}
     </svg></figure>`;
 }).join('');
 
@@ -282,7 +286,7 @@ function render(){
     let cells='';
     D.dias.forEach((dd,di)=>{
       const l=dd.linhas[i]; let inner='<div class="g"></div>';
-      if(l.estado==='indisponivel') inner+='<div class="tarja"></div>';
+      if(l.estado==='indisponivel') inner+='<div class="bar parado"></div>';
       else if(l.estado==='sem_escala') inner+='<span class="tag se">S/E</span>';
       else if(l.estado==='manutencao') inner+='<span class="tag mnt">manut.</span>';
       else if(l.estado==='nota'&&l.nota) inner+=`<span class="tag nota">${esc(l.nota.length>16?l.nota.slice(0,15)+'…':l.nota)}</span>`;
@@ -303,7 +307,8 @@ function render(){
     const parado=D.dias.every(dd=>dd.linhas[i].estado==='indisponivel');
     const wkH=D.sem_semana[i], wp=Math.min(100,wkH/40*100);
     return `<div class="wrow body${(anyTrip||parado)?'':' idle'}">
-      <div class="rc"><span class="car">${esc(base.carro)}</span><span class="pre">${esc(base.prefixo)} · ${esc(base.modelo)}</span>${parado?'<span class="parado">PARADO</span>':''}</div>
+      <div class="rc"><span class="car">${esc(base.carro)}</span>
+        <span class="pre${parado?' dim':''}">${parado?`<span class="parado">PARADO</span>${esc(base.prefixo)}`:`${esc(base.prefixo)} · ${esc(base.modelo)}`}</span></div>
       ${cells}
       <div class="wk">${parado?'<span class="n">—</span>':`<span class="n">${wkH.toFixed(1)}h</span><span class="track"><span class="fill" style="width:${wp}%"></span></span>`}</div>
     </div>`;
