@@ -1,0 +1,308 @@
+<meta charset="utf-8">
+<title>Semana de Frota</title>
+<meta name="description" content="Atividade dos 95 carros da frota Saritur (Matriz-BH), 3 a 6 de setembro de 2026, com os quatro dias lado a lado.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#f6f5f2; --surface:#fff; --surface-2:#efece6; --track:#e7e3db;
+  --border:#e0ddd5; --coldiv:#cdc8bd; --ink:#201d1b; --ink-2:#6c665e; --ink-3:#938c82;
+  --brand:#c30f2c;
+  --ida:#1f5f8b; --volta:#bf7a24; --viagem:#3f7d70; --chegando:#6f5fd0;
+  --warn:#c98a1e;
+  --shadow:0 1px 2px rgba(30,25,20,.06),0 10px 26px -14px rgba(30,25,20,.16);
+  --r:10px; --lw:150px; --wk:58px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#191817; --surface:#232120; --surface-2:#2b2927; --track:#332f2b;
+  --border:#38352f; --ink:#ece8e2; --ink-2:#a79f94; --ink-3:#7c7469;
+  --brand:#f0576b; --coldiv:#48443d;
+  --ida:#59a6d4; --volta:#e0a559; --viagem:#67b0a1; --chegando:#a99cf0;
+  --warn:#e0a559;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 12px 30px -16px rgba(0,0,0,.55);
+}}
+:root[data-theme="dark"]{
+  --bg:#191817; --surface:#232120; --surface-2:#2b2927; --track:#332f2b;
+  --border:#38352f; --ink:#ece8e2; --ink-2:#a79f94; --ink-3:#7c7469;
+  --brand:#f0576b; --coldiv:#48443d;
+  --ida:#59a6d4; --volta:#e0a559; --viagem:#67b0a1; --chegando:#a99cf0;
+  --warn:#e0a559;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 12px 30px -16px rgba(0,0,0,.55);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,sans-serif;font-size:14px;line-height:1.5;
+  -webkit-font-smoothing:antialiased}
+.wrap{max-width:1320px;margin:0 auto;padding:30px 20px 60px}
+h1,h2{font-family:"Barlow Semi Condensed",system-ui,sans-serif;font-weight:700;
+  letter-spacing:.01em;margin:0;text-wrap:balance}
+.eyebrow{font-family:"Barlow Semi Condensed",sans-serif;font-weight:600;text-transform:uppercase;
+  letter-spacing:.13em;font-size:12px;color:var(--brand);margin-bottom:6px}
+h1{font-size:clamp(28px,4vw,42px);line-height:1.03}
+.lede{color:var(--ink-2);margin:10px 0 0;max-width:62ch;font-size:15px}
+.rule{height:3px;width:52px;background:var(--brand);border-radius:2px;margin:15px 0 22px}
+.premissas{font-size:12.5px;color:var(--ink-3);max-width:70ch;margin-top:12px;line-height:1.6}
+.premissas b{color:var(--ink-2);font-weight:600}
+.chip{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:11px;padding:1px 6px;
+  border-radius:5px;background:var(--surface-2);color:var(--ink-2);border:1px solid var(--border)}
+
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:24px 0 6px}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:13px 14px 15px;
+  box-shadow:var(--shadow)}
+.kpi h2{font-size:16px;text-transform:uppercase;letter-spacing:.05em}
+.kpi .big{font-family:"Barlow Semi Condensed",sans-serif;font-weight:700;font-size:27px;
+  font-variant-numeric:tabular-nums;line-height:1.15;margin-top:3px}
+.kpi .big small{font-size:12px;color:var(--ink-3);font-weight:600}
+.kpi .sub{font-size:11.5px;color:var(--ink-2);font-variant-numeric:tabular-nums;margin-top:1px}
+.kpi .flag{font-size:11px;color:var(--warn);font-weight:600;margin-top:3px}
+
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);
+  box-shadow:var(--shadow);margin-top:16px;overflow:hidden}
+.panel-h{padding:15px 18px 4px}
+.panel-h h2{font-size:19px}
+.panel-h p{margin:3px 0 0;font-size:12.5px;color:var(--ink-2)}
+
+.spark{display:grid;grid-template-columns:repeat(4,1fr);gap:0;padding:8px 12px 14px}
+.spark figure{margin:0;padding:0 8px;border-left:1px solid var(--border)}
+.spark figure:first-child{border-left:0}
+.spark figcaption{font-family:"Barlow Semi Condensed",sans-serif;font-weight:600;font-size:12.5px;
+  text-transform:uppercase;letter-spacing:.05em;color:var(--ink-2);display:flex;justify-content:space-between}
+.spark figcaption b{color:var(--brand);font-variant-numeric:tabular-nums}
+.spark svg{display:block;width:100%;height:96px;overflow:visible;margin-top:3px}
+.spark text{font-family:"IBM Plex Mono",monospace;font-size:9px;fill:var(--ink-3)}
+
+.controls{display:flex;gap:15px;align-items:center;flex-wrap:wrap;padding:11px 18px;
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface-2)}
+.controls label{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--ink-2);cursor:pointer}
+.controls input[type=checkbox]{width:15px;height:15px;accent-color:var(--brand)}
+.controls input[type=search]{font:inherit;font-size:13px;padding:5px 9px;border-radius:7px;
+  border:1px solid var(--border);background:var(--surface);color:var(--ink);width:120px}
+.legend{display:flex;gap:12px;flex-wrap:wrap;margin-left:auto;font-size:12px;color:var(--ink-2)}
+.legend span{display:flex;align-items:center;gap:5px}
+.sw{width:12px;height:12px;border-radius:3px;flex:none}
+.sw.ida{background:var(--ida)}.sw.volta{background:var(--volta)}.sw.viagem{background:var(--viagem)}
+.sw.cheg{background:repeating-linear-gradient(45deg,var(--chegando),var(--chegando) 3px,transparent 3px,transparent 6px);border:1px solid var(--chegando)}
+
+/* week grid */
+.wgrid{min-width:0}
+.wrow{display:grid;grid-template-columns:var(--lw) repeat(4,1fr) var(--wk);
+  border-bottom:1px solid var(--border)}
+.whead{position:sticky;top:0;z-index:4;background:var(--surface);
+  border-bottom:2px solid var(--coldiv)}
+.whead .wc{padding:7px 8px 5px;border-left:1px solid var(--coldiv)}
+.whead .wl{position:sticky;left:0;z-index:5;background:var(--surface)}
+@media (max-width:940px){
+  .grid-scroll{overflow-x:auto}
+  .wgrid{min-width:900px}
+  .whead{position:static}
+}
+.whead .wl{padding:7px 12px 5px;font-size:11px;font-weight:600;text-transform:uppercase;
+  letter-spacing:.07em;color:var(--ink-3);align-self:end}
+.wc .dname{font-family:"Barlow Semi Condensed",sans-serif;font-weight:700;font-size:14px;
+  text-transform:uppercase;letter-spacing:.03em}
+.wc .dstat{font-size:10.5px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.wc .ax{position:relative;height:9px;margin-top:3px}
+.wc .ax i{position:absolute;font-style:normal;font-family:"IBM Plex Mono",monospace;font-size:8px;
+  color:var(--ink-3);transform:translateX(-50%)}
+.wc .ax i:first-child{transform:none}.wc .ax i:last-child{transform:translateX(-100%)}
+
+.wrow.body:nth-of-type(even){background:var(--surface-2)}
+.wrow.idle{opacity:.5}
+.rc{padding:5px 10px;display:flex;flex-direction:column;justify-content:center;gap:1px;
+  position:sticky;left:0;z-index:2;background:var(--surface);border-right:2px solid var(--coldiv)}
+.wrow.body:nth-of-type(even) .rc{background:var(--surface-2)}
+.rc .car{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:12.5px;font-variant-numeric:tabular-nums}
+.rc .pre{font-size:10px;color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.day{position:relative;border-left:1px solid var(--coldiv);min-height:26px}
+.day .g{position:absolute;inset:3px 0;pointer-events:none;
+  background-image:repeating-linear-gradient(90deg,transparent 0,transparent calc(25% - 1px),var(--track) calc(25% - 1px),var(--track) 25%)}
+.bar{position:absolute;top:4px;bottom:4px;border-radius:3px;min-width:2px}
+.bar.ida{background:var(--ida)}.bar.volta{background:var(--volta)}.bar.viagem{background:var(--viagem)}
+.bar.chegando{background:repeating-linear-gradient(45deg,var(--chegando),var(--chegando) 3px,color-mix(in srgb,var(--chegando) 55%,#000) 3px,color-mix(in srgb,var(--chegando) 55%,#000) 6px)}
+.bar.of{border-right:2px solid var(--brand)}
+.bar.continuacao{border-radius:0 3px 3px 0;opacity:.78;border-left:2px solid var(--brand);
+  background-image:linear-gradient(90deg,rgba(255,255,255,.5),rgba(255,255,255,0) 45%)}
+.bar.chegando.continuacao{opacity:1}
+.tag{position:absolute;left:4px;top:50%;transform:translateY(-50%);font-size:9.5px;font-weight:600;
+  padding:1px 5px;border-radius:10px;white-space:nowrap;max-width:calc(100% - 8px);overflow:hidden;text-overflow:ellipsis}
+.tag.se{background:color-mix(in srgb,var(--ink-3) 20%,transparent);color:var(--ink-2)}
+.tag.mnt{background:color-mix(in srgb,var(--warn) 24%,transparent);color:var(--warn)}
+.tag.nota{background:color-mix(in srgb,var(--viagem) 16%,transparent);color:var(--viagem)}
+.wk{padding:4px 8px;display:flex;flex-direction:column;justify-content:center;gap:2px;border-left:2px solid var(--coldiv)}
+.wk .n{font-family:"IBM Plex Mono",monospace;font-size:11px;font-variant-numeric:tabular-nums;color:var(--ink-2)}
+.wk .track{height:5px;background:var(--track);border-radius:3px;overflow:hidden}
+.wk .fill{height:100%;background:var(--ida);border-radius:3px}
+
+#tip{position:fixed;z-index:30;pointer-events:none;opacity:0;transition:opacity .1s;
+  background:var(--ink);color:var(--bg);border-radius:8px;padding:9px 11px;max-width:290px;
+  font-size:12px;line-height:1.45;box-shadow:0 12px 32px -8px rgba(0,0,0,.45)}
+#tip .h{font-family:"IBM Plex Mono",monospace;font-weight:600;margin-bottom:2px}
+#tip .raw{color:var(--ink-3);font-size:11px;margin:3px 0 4px;white-space:pre-wrap}
+#tip u{text-decoration:none;display:block}
+.empty{padding:20px 18px;color:var(--ink-2)}
+
+footer{margin-top:28px;font-size:12px;color:var(--ink-3);max-width:76ch;line-height:1.65}
+footer h2{font-size:13px;color:var(--ink-2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+footer code{font-family:"IBM Plex Mono",monospace;font-size:11.5px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media (max-width:560px){:root{--lw:96px;--wk:44px}}
+</style>
+
+<div class="wrap">
+<header>
+  <div class="eyebrow">Grupo Saritur · Garagem Matriz — Belo Horizonte</div>
+  <h1>Semana de Frota</h1>
+  <div class="rule"></div>
+  <p class="lede">Os 95 carros da frota nos quatro dias de 3 a 6 de setembro de 2026, lado a lado.
+     Cada faixa é uma viagem — quando o carro sai, para onde vai e quanto tempo fica na estrada.</p>
+  <p class="premissas"><b>Origem dos horários:</b> planilha <b>FROTA MOVIMENTO</b> (nº de ordem + colunas dos dias).
+     <b>Tempo de cada viagem:</b> duração real da tabela horária do site de vendas da Saritur
+     (consulta de 04/09, mesma duração vale para os quatro dias) — <span id="fonteResumo"></span>.
+     <b>Sentido</b> (ida BH→interior / volta interior→BH) vem do ponto de saída anotado na célula.
+     Viagens que passam da meia-noite aparecem também na madrugada do dia seguinte.</p>
+</header>
+
+<div class="kpis" id="kpis"></div>
+
+<div class="panel">
+  <div class="panel-h">
+    <h2>Carros em viagem, hora a hora</h2>
+    <p>Mesma escala nos quatro dias. O ponto vermelho marca o pico do dia.</p>
+  </div>
+  <div class="spark" id="spark"></div>
+</div>
+
+<div class="panel">
+  <div class="controls">
+    <label><input type="checkbox" id="hideIdle" checked> ocultar carros parados a semana toda</label>
+    <input type="search" id="q" placeholder="nº do carro" aria-label="filtrar por número do carro">
+    <div class="legend">
+      <span><i class="sw ida"></i>ida</span>
+      <span><i class="sw volta"></i>volta</span>
+      <span><i class="sw viagem"></i>em viagem</span>
+      <span><i class="sw cheg"></i>chegando</span>
+      <span><i class="sw ida" style="opacity:.55;border-left:2px solid var(--brand)"></i>vem da véspera</span>
+    </div>
+  </div>
+  <div class="grid-scroll"><div class="wgrid" id="wg"></div></div>
+</div>
+
+<footer>
+  <h2>Notas de leitura</h2>
+  <p>• <b>Domingo 06/09</b> estava quase todo em branco na planilha — os carros que aparecem no domingo são, na maior parte, viagens de sábado à noite que só terminam na madrugada de domingo.<br>
+     • Faixa com borda vermelha à direita passa da meia-noite; ela reaparece <b>no início do dia seguinte</b> como faixa mais clara (“vem da véspera”) até a hora estimada de chegada.<br>
+     • Célula só com número de linha e sem horário (ex.: <code>3965</code>) vira etiqueta, sem faixa.<br>
+     • “Chegando” é a viagem noturna que entra em BH de madrugada; a hora de chegada é aproximada.<br>
+     • Coluna “semana” = total de horas do carro na estrada somando os quatro dias (barra proporcional a 40 h).</p>
+</footer>
+</div>
+<div id="tip"></div>
+
+<script id="data" type="application/json">__PAYLOAD__</script>
+<script>
+const D=JSON.parse(document.getElementById('data').textContent);
+const F=D.frota_total, pad=n=>String(n).padStart(2,'0');
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+document.getElementById('fonteResumo').textContent = D.est_cidades.length
+  ? `${D.reais_cidades.length} destinos com horário real; ainda estimados: ${D.est_cidades.join(', ')}`
+  : `todos os ${D.reais_cidades.length} destinos da semana com horário real`;
+
+// KPIs
+document.getElementById('kpis').innerHTML = D.resumo.map((r,di)=>`
+  <div class="kpi">
+    <h2>${r.dia}</h2>
+    <div class="big">${r.carros_ativos}<small> / ${F} carros</small></div>
+    <div class="sub">pico ${r.pico} às ${r.pico_h} · ${r.horas_frota} h na estrada</div>
+    ${di===3?'<div class="flag">planilha do domingo quase em branco</div>':''}
+  </div>`).join('');
+
+// sparklines — escala Y compartilhada
+const ymax=Math.max(6,Math.ceil(Math.max(...D.dias.flatMap(d=>d.agg))/5)*5);
+document.getElementById('spark').innerHTML = D.dias.map(dd=>{
+  const W=240,H=80,PB=12,PL=4;
+  const x=b=>PL+b*(W-PL)/48, y=v=>PB+(H-PB)-v*(H-PB)/ymax;
+  let area=`M ${x(0)} ${y(0)}`, line=`M ${x(0)} ${y(dd.agg[0])}`;
+  dd.agg.forEach((v,b)=>{const c=`L ${x(b).toFixed(1)} ${y(v).toFixed(1)} L ${x(b+1).toFixed(1)} ${y(v).toFixed(1)}`;area+=c;line+=c;});
+  area+=` L ${x(48)} ${y(0)} Z`;
+  const pk=dd.agg.indexOf(Math.max(...dd.agg)), pkv=dd.agg[pk];
+  let ticks='';
+  for(let h=0;h<=24;h+=6) ticks+=`<line x1="${x(h*2)}" y1="${PB}" x2="${x(h*2)}" y2="${H-PB}" stroke="var(--track)"/><text x="${x(h*2)}" y="${H}" text-anchor="middle">${pad(h)}</text>`;
+  return `<figure><figcaption><span>${dd.nome}</span><b>${pkv}</b></figcaption>
+    <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="${dd.nome}: pico ${pkv} carros">
+      ${ticks}
+      <path d="${area}" fill="var(--ida)" fill-opacity=".15"/>
+      <path d="${line}" fill="none" stroke="var(--ida)" stroke-width="1.6" stroke-linejoin="round"/>
+      ${pkv?`<circle cx="${x(pk+.5).toFixed(1)}" cy="${y(pkv).toFixed(1)}" r="2.6" fill="var(--brand)"/>`:''}
+    </svg></figure>`;
+}).join('');
+
+// week grid
+const tip=document.getElementById('tip');
+function showTip(e,html){tip.innerHTML=html;tip.style.opacity=1;
+  const r=tip.getBoundingClientRect();let x=e.clientX+14,y=e.clientY+14;
+  if(x+r.width>innerWidth-8)x=e.clientX-r.width-14;
+  if(y+r.height>innerHeight-8)y=e.clientY-r.height-14;
+  tip.style.left=x+'px';tip.style.top=y+'px';}
+const hideTip=()=>tip.style.opacity=0;
+
+function render(){
+  const wg=document.getElementById('wg');
+  const hi=document.getElementById('hideIdle').checked;
+  const q=document.getElementById('q').value.trim();
+  let idx=D.dias[0].linhas.map((_,i)=>i);
+  if(hi) idx=idx.filter(i=>D.dias.some(dd=>dd.linhas[i].intervals.length));
+  if(q) idx=idx.filter(i=>D.dias[0].linhas[i].carro.includes(q));
+
+  let head=`<div class="wrow whead"><div class="wl">carro</div>`;
+  D.dias.forEach((dd,di)=>{
+    const r=D.resumo[di];
+    let ax='';[0,6,12,18,24].forEach(h=>ax+=`<i style="left:${h/24*100}%">${pad(h)}</i>`);
+    head+=`<div class="wc"><div class="dname">${dd.nome}</div>
+      <div class="dstat">${r.carros_ativos} carros · pico ${r.pico}</div>
+      <div class="ax">${ax}</div></div>`;
+  });
+  head+=`<div class="wl">semana</div></div>`;
+
+  if(!idx.length){ wg.innerHTML=head+'<div class="empty">Nenhum carro para esse filtro.</div>'; return; }
+  const tips={};
+  const body=idx.map(i=>{
+    const base=D.dias[0].linhas[i];
+    const anyTrip=D.dias.some(dd=>dd.linhas[i].intervals.length);
+    let cells='';
+    D.dias.forEach((dd,di)=>{
+      const l=dd.linhas[i]; let inner='<div class="g"></div>';
+      if(l.estado==='sem_escala') inner+='<span class="tag se">S/E</span>';
+      else if(l.estado==='manutencao') inner+='<span class="tag mnt">manut.</span>';
+      else if(l.estado==='nota'&&l.nota) inner+=`<span class="tag nota">${esc(l.nota.length>16?l.nota.slice(0,15)+'…':l.nota)}</span>`;
+      l.intervals.forEach(it=>{
+        const L=it.ini/1440*100, W=Math.max((it.fim-it.ini)/1440*100,0.6);
+        const cls=[it.tipo, it.overflow?'of':'', it.continuacao?'continuacao':''].filter(Boolean).join(' ');
+        inner+=`<div class="bar ${cls}" style="left:${L}%;width:${W}%"></div>`;
+      });
+      cells+=`<div class="day" data-k="${i}_${di}">${inner}</div>`;
+      const legs=l.intervals.length
+        ? l.intervals.map(it=>`<u>${esc(it.rot)}${it.fonte==='estimado'?' · tempo estimado':it.fonte==='saritur'?' · tempo real':''}${it.overflow?' — segue na madrugada':''}</u>`).join('')
+        : `<u>${esc(l.nota||(l.estado==='sem_escala'?'sem escala':'sem viagem'))}</u>`;
+      tips[`${i}_${di}`]=`<div class="h">${esc(l.carro)} · ${dd.nome}</div>`+
+        (l.raw?`<div class="raw">planilha: “${esc(l.raw)}”</div>`:'')+legs;
+    });
+    const wkH=D.sem_semana[i], wp=Math.min(100,wkH/40*100);
+    return `<div class="wrow body${anyTrip?'':' idle'}">
+      <div class="rc"><span class="car">${esc(base.carro)}</span><span class="pre">${esc(base.prefixo)} · ${esc(base.modelo)}</span></div>
+      ${cells}
+      <div class="wk"><span class="n">${wkH.toFixed(1)}h</span><span class="track"><span class="fill" style="width:${wp}%"></span></span></div>
+    </div>`;
+  }).join('');
+  wg.innerHTML=head+body;
+  wg.querySelectorAll('.day').forEach(c=>{
+    const h=tips[c.dataset.k];
+    c.addEventListener('mousemove',e=>showTip(e,h));
+    c.addEventListener('mouseleave',hideTip);
+  });
+}
+document.getElementById('hideIdle').onchange=render;
+document.getElementById('q').oninput=render;
+render();
+</script>
